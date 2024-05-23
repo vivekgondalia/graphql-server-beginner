@@ -51,6 +51,7 @@ const typeDefs = `#graphql
   # clients can execute, along with the return type for each. THIS IS THE ENTRY POINT INTO THE GRAPHs.
   type Query {
     reviews : [Review]
+    review(id : ID!) : Review
     games : [Game]
     authors : [Author]
   }
@@ -61,6 +62,9 @@ const resolvers = {
     Query: {
         games: () => games,
         reviews: () => reviews,
+        review: (_, args) => {
+            return reviews.find((review) => review.id === args.id);
+        },
         authors: () => authors
     }
 };
