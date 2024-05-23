@@ -64,6 +64,10 @@ const typeDefs = `#graphql
     authors : [Author]
     author(id : ID!) : Author
   }
+
+  type Mutation {
+    deleteGame(id: ID!) : [Game]
+  }
 `;
 
 // Resolvers define how to fetch the types defined in your schema.
@@ -99,6 +103,11 @@ const resolvers = {
         },
         game : (parent) => {
             return games.find((game) => game.id === parent.game_id)
+        }
+    },
+    Mutation : {
+        deleteGame : (_, args) => {
+            return games.filter((game) => game.id !== args.id);
         }
     }
 
