@@ -63,7 +63,13 @@ const typeDefs = `#graphql
   }
 
   type Mutation {
+    addGame(game : AddGameInput!) : Game
     deleteGame(id: ID!) : [Game]
+  }
+
+  input AddGameInput {
+    title : String!,
+    platform : [String!]!
   }
 `;
 // Resolvers define how to fetch the types defined in your schema.
@@ -104,6 +110,14 @@ const resolvers = {
     Mutation: {
         deleteGame: (_, args) => {
             return games.filter((game) => game.id !== args.id);
+        },
+        addGame: (_, args) => {
+            let newGame = {
+                ...args.game,
+                id: Math.floor(Math.random() * 10000).toString()
+            };
+            games.push(newGame);
+            return newGame;
         }
     }
 };
