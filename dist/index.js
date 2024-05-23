@@ -53,7 +53,9 @@ const typeDefs = `#graphql
     reviews : [Review]
     review(id : ID!) : Review
     games : [Game]
+    game(id: ID!) : Game
     authors : [Author]
+    author(id : ID!) : Author
   }
 `;
 // Resolvers define how to fetch the types defined in your schema.
@@ -61,11 +63,17 @@ const typeDefs = `#graphql
 const resolvers = {
     Query: {
         games: () => games,
+        game: (_, args) => {
+            return games.find((game) => game.id === args.id);
+        },
         reviews: () => reviews,
         review: (_, args) => {
             return reviews.find((review) => review.id === args.id);
         },
-        authors: () => authors
+        authors: () => authors,
+        author: (_, args) => {
+            return authors.find((author) => author.id === args.id);
+        }
     }
 };
 // The ApolloServer constructor requires two parameters: your schema
